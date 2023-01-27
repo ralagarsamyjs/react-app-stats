@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import MainFunctional from "./components/mainFunctional";
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import MainFunctional from './components/mainFunctional';
+import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 class App extends Component {
   render() {
     return (
@@ -11,5 +12,5 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 //render(<App />, document.getElementById("root"));

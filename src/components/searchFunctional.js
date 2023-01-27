@@ -1,17 +1,18 @@
-import { Fragment } from 'react/cjs/react.production.min';
-
 function Search(props) {
   return (
-    <Fragment>
-      <label htmlFor="search-text">Search Text: </label>
-      <input
-        type="text"
-        id="search-text"
-        onChange={(e) => {
-          props.onSearch(e.target.value);
-        }}
-      ></input>
-    </Fragment>
+    <div className="input-group">
+      <div className="form-outline">
+        <input
+          type="text"
+          id="search-text"
+          className="form-control"
+          placeholder="Type to search..."
+          onChange={(e) => {
+            props.onSearch(e.target.value);
+          }}
+        />
+      </div>
+    </div>
   );
 }
 
