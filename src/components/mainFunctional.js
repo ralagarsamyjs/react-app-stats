@@ -1,6 +1,9 @@
+import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import starwars from '../APIs/starwars';
+import Catalogue from './catalogueFunctional';
 import Delete from './deleteFunctional';
+import Item from './item';
 import Pagination from './paginationFunctional';
 import Search from './searchFunctional';
 
@@ -8,9 +11,15 @@ function MainFunctional() {
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [pageNo, setPageNo] = useState(1);
+  const [catalogItem, setCatalogItem] = useState(0);
+  const [sortBy, setSortBy] = useState('asc');
   const pageSize = 5;
 
-  const categories = [{ name: 'people' }, { name: 'cats' }, { name: 'covid' }];
+  const catalogueList = [
+    { name: 'people' },
+    { name: 'cats' },
+    { name: 'covid' },
+  ];
 
   useEffect(() => {
     starwars.getPeople().then((response) => {
@@ -34,6 +43,19 @@ function MainFunctional() {
     setPageNo(pno);
   };
 
+  const onCatelogItemSelectHandler = (index) => {
+    console.log('onCatelogItem ', index);
+    setCatalogItem(index);
+  };
+
+  const onSortHandler = () => {
+    const sorting = sortBy === 'asc' ? 'desc' : 'asc';
+    setSortBy(sorting);
+  };
+
+  const getSortClasses = () => {
+    return sortBy === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc';
+  };
   const getAvailableDataList = () => {
     let displayData = [...data];
     if (searchText)
@@ -55,7 +77,9 @@ function MainFunctional() {
   const pageStart = getPageStartIndex();
   const pageEnd = pageStart + pageSize;
 
-  const displayData = availableDataList.slice(pageStart, pageEnd);
+  const sortedlist = _.orderBy(availableDataList, ['name'], [sortBy]);
+
+  const displayData = sortedlist.slice(pageStart, pageEnd);
 
   return (
     <div>
@@ -63,18 +87,11 @@ function MainFunctional() {
         <div className="row">
           <div className="col-3">
             <div className="row">
-              <ul className="list-group">
-                <li className="list-group-item disabled" aria-disabled="true">
-                  <h1>Categories</h1>
-                </li>
-                {categories.map((category) => {
-                  return (
-                    <li key={category.name} className="list-group-item">
-                      {category.name}
-                    </li>
-                  );
-                })}
-              </ul>
+              <Catalogue
+                catalogueList={catalogueList}
+                onSelect={onCatelogItemSelectHandler}
+                selectedIndex={catalogItem}
+              />
             </div>
           </div>
           <div className="col-6">
@@ -82,7 +99,10 @@ function MainFunctional() {
             <table className="table">
               <thead>
                 <tr>
-                  <th className="col-sm">Name</th>
+                  <th className="col-sm" onClick={onSortHandler}>
+                    Name
+                    <i className={getSortClasses()}></i>
+                  </th>
                   <th className="col-sm-2">Actions</th>
                 </tr>
               </thead>
@@ -91,7 +111,10 @@ function MainFunctional() {
                   return (
                     <tr key={index}>
                       <td scope="row">{item.name}</td>
-                      <td scope="row">
+                      {/* <td scope="row">
+                        <Item item={item} />
+                      </td> */}
+                      <td>
                         <Delete onDelete={onItemDeleteHandler} item={item} />
                       </td>
                     </tr>
