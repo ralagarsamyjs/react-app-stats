@@ -4,10 +4,10 @@ import starwars from '../APIs/starwars';
 import Catalog from './catalog';
 import Pagination from './pagination';
 import Search from './search';
-
-import People from './people';
-import Planets from './planets';
-import Starships from './starships';
+// import People from './people';
+// import Planets from './planets';
+// import Starships from './starships';
+import StarwarsTable from './starwarsTable';
 
 function Starwars(props) {
   const [data, setData] = useState([]);
@@ -45,10 +45,22 @@ function Starwars(props) {
   };
 
   const onItemDeleteHandler = (item) => {
-    const remainingData = data.filter((people) => {
-      return people.name !== item.name;
-    });
-    setData(remainingData);
+    if (catalogItem === 0) {
+      const remainingData = data.filter((people) => {
+        return people.name !== item.name;
+      });
+      setData(remainingData);
+    } else if (catalogItem === 1) {
+      const remainingData = planets.filter((planet) => {
+        return planet.name !== item.name;
+      });
+      setPlanets(remainingData);
+    } else {
+      const remainingData = starships.filter((starship) => {
+        return starship.name !== item.name;
+      });
+      setStarships(remainingData);
+    }
   };
 
   const onPaginationHandler = (pno) => {
@@ -65,13 +77,30 @@ function Starwars(props) {
   };
 
   const getAvailableDataList = () => {
-    let displayData = [...data];
-    if (searchText)
-      displayData = data.filter((people) => {
-        return people.name.includes(searchText);
-      });
-    return displayData;
+    if (catalogItem === 0) {
+      let displayData = [...data];
+      if (searchText)
+        displayData = data.filter((people) => {
+          return people.name.includes(searchText);
+        });
+      return displayData;
+    } else if (catalogItem === 1) {
+      let displayData = [...planets];
+      if (searchText)
+        displayData = planets.filter((planet) => {
+          return planet.name.includes(searchText);
+        });
+      return displayData;
+    } else {
+      let displayData = [...starships];
+      if (searchText)
+        displayData = starships.filter((starship) => {
+          return starship.name.includes(searchText);
+        });
+      return displayData;
+    }
   };
+
   const getPageStartIndex = () => {
     const start = (pageNo - 1) * pageSize;
     if (pageNo > 1) {
@@ -104,16 +133,12 @@ function Starwars(props) {
           </div>
           <div className="col">
             <Search onSearch={onSearchHandler} />
-            {catalogItem === 0 && (
-              <People
-                people={displayData}
-                onSort={onSortHandler}
-                onDelete={onItemDeleteHandler}
-                sortBy={sortBy}
-              />
-            )}
-            {catalogItem === 1 && <Planets />}
-            {catalogItem === 2 && <Starships />}
+            <StarwarsTable
+              items={displayData}
+              onSort={onSortHandler}
+              onDelete={onItemDeleteHandler}
+              sortBy={sortBy}
+            />
             <Pagination
               onPageSelect={onPaginationHandler}
               totalItems={numberOfItems}

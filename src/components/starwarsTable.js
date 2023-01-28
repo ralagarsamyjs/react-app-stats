@@ -2,8 +2,8 @@ import React from 'react';
 import Delete from './delete';
 import { useNavigate } from 'react-router-dom';
 
-function Planets(props) {
-  const { people, onSort, onDelete, sortBy } = props;
+function StarwarsTable(props) {
+  const { items, onSort, onDelete, sortBy } = props;
   const navigate = useNavigate();
 
   const toComponentItem = (data) => {
@@ -27,7 +27,7 @@ function Planets(props) {
         </tr>
       </thead>
       <tbody>
-        {people.map((item, index) => {
+        {items.map((item, index) => {
           return (
             <tr key={index}>
               <td scope="row">
@@ -51,4 +51,4 @@ function Planets(props) {
   );
 }
 
-export default Planets;
+export default StarwarsTable;
