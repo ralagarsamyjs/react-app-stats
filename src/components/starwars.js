@@ -95,7 +95,7 @@ function Starwars(props) {
         <div className="row">
           <div className="col-3">
             <div className="row">
-              <Catalogue
+              <Catalog
                 catalogList={catalogList}
                 onSelect={onCatelogItemSelectHandler}
                 selectedIndex={catalogItem}
