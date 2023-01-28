@@ -14,8 +14,8 @@ function Item() {
           className="list-group-item d-flex justify-content-between align-items-start"
           key={key}
         >
-          <div class="ms-2 me-auto">
-            <div class="fw-bold">{key}</div>
+          <div className="ms-2 me-auto">
+            <div className="fw-bold">{key}</div>
             {value}
           </div>
         </li>

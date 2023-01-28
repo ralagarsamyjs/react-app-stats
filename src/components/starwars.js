@@ -1,22 +1,25 @@
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import starwars from '../APIs/starwars';
-import Catalogue from './catalogue';
-import Delete from './delete';
+import Catalog from './catalog';
 import Pagination from './pagination';
 import Search from './search';
-import { useNavigate } from 'react-router-dom';
+
+import People from './people';
+import Planets from './planets';
+import Starships from './starships';
 
 function Starwars(props) {
   const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [starships, setStarships] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [pageNo, setPageNo] = useState(1);
   const [catalogItem, setCatalogItem] = useState(0);
   const [sortBy, setSortBy] = useState('asc');
   const pageSize = 5;
-  const navigate = useNavigate();
 
-  const catalogueList = [
+  const catalogList = [
     { name: 'people' },
     { name: 'planets' },
     { name: 'starships' },
@@ -24,8 +27,16 @@ function Starwars(props) {
 
   useEffect(() => {
     starwars.getPeople().then((response) => {
-      // console.log('response', response);
+      console.log('people', response);
       setData(response);
+    });
+    starwars.getPlanets().then((response) => {
+      console.log('planets', response);
+      setPlanets(response);
+    });
+    starwars.getStarships().then((response) => {
+      console.log('startships', response);
+      setStarships(response);
     });
   }, []);
 
@@ -53,9 +64,6 @@ function Starwars(props) {
     setSortBy(sorting);
   };
 
-  const getSortClasses = () => {
-    return sortBy === 'asc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc';
-  };
   const getAvailableDataList = () => {
     let displayData = [...data];
     if (searchText)
@@ -70,10 +78,6 @@ function Starwars(props) {
       return searchText === '' ? start : 0;
     }
     return start;
-  };
-
-  const toComponentItem = (data) => {
-    navigate('/item', { state: data });
   };
 
   const availableDataList = getAvailableDataList();
@@ -92,7 +96,7 @@ function Starwars(props) {
           <div className="col-3">
             <div className="row">
               <Catalogue
-                catalogueList={catalogueList}
+                catalogList={catalogList}
                 onSelect={onCatelogItemSelectHandler}
                 selectedIndex={catalogItem}
               />
@@ -100,47 +104,16 @@ function Starwars(props) {
           </div>
           <div className="col">
             <Search onSearch={onSearchHandler} />
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="col-sm" onClick={onSortHandler}>
-                    Name
-                    <i className={getSortClasses()}></i>
-                  </th>
-                  <th className="col-sm-2">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {displayData.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td scope="row">
-                        <a
-                          className="item-name"
-                          onClick={() => {
-                            toComponentItem(item);
-                          }}
-                        >
-                          {item.name}
-                        </a>
-                        {/* <Link
-                          className="item-name"
-                          to={{
-                            pathname: '/item',
-                            state: item,
-                          }}
-                        >
-                          {item.name}
-                        </Link> */}
-                      </td>
-                      <td>
-                        <Delete onDelete={onItemDeleteHandler} item={item} />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            {catalogItem === 0 && (
+              <People
+                people={displayData}
+                onSort={onSortHandler}
+                onDelete={onItemDeleteHandler}
+                sortBy={sortBy}
+              />
+            )}
+            {catalogItem === 1 && <Planets />}
+            {catalogItem === 2 && <Starships />}
             <Pagination
               onPageSelect={onPaginationHandler}
               totalItems={numberOfItems}

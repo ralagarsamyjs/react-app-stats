@@ -1,7 +1,7 @@
 import React from 'react';
 
-function Catalogue(props) {
-  const { catalogueList, onSelect, selectedIndex } = props;
+function Catalog(props) {
+  const { catalogList, onSelect, selectedIndex } = props;
 
   const getClasses = (index) => {
     return index === selectedIndex
@@ -10,17 +10,17 @@ function Catalogue(props) {
   };
   return (
     <div className="list-group">
-      {catalogueList.map((catalogue, index) => {
+      {catalogList.map((catalog, index) => {
         return (
           <button
             type="button"
-            key={catalogue.name}
+            key={catalog.name}
             className={getClasses(index)}
             onClick={() => {
               onSelect(index);
             }}
           >
-            {catalogue.name}
+            {catalog.name}
           </button>
         );
       })}
@@ -28,4 +28,4 @@ function Catalogue(props) {
   );
 }
 
-export default Catalogue;
+export default Catalog;
