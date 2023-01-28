@@ -1,4 +1,9 @@
-function Item() {
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+function Item(props) {
+  const { data } = props;
+  let navigate = useNavigate();
+
   const dataItemToKeyValues = (item) => {
     const entries = Object.entries(item);
     const listitem = entries.map(([key, value]) => {
@@ -19,6 +24,14 @@ function Item() {
           })}
         </ul>
       )}
+      <button
+        className="btn btn-primary"
+        onClick={() => {
+          navigate('/starwars');
+        }}
+      >
+        Back
+      </button>
     </div>
   );
 }

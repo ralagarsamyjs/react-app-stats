@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import MainFunctional from './components/mainFunctional';
+import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './index.css';
+import Dashboard from './components/dashboard';
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <MainFunctional />
+        <BrowserRouter>
+          <Dashboard />
+        </BrowserRouter>
       </div>
     );
   }

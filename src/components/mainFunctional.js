@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import starwars from '../APIs/starwars';
 import Catalogue from './catalogueFunctional';
 import Delete from './deleteFunctional';
-import Item from './item';
 import Pagination from './paginationFunctional';
 import Search from './searchFunctional';
+import { Link } from 'react-router-dom';
 
-function MainFunctional() {
+function Starwars() {
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [pageNo, setPageNo] = useState(1);
@@ -17,13 +17,13 @@ function MainFunctional() {
 
   const catalogueList = [
     { name: 'people' },
-    { name: 'cats' },
-    { name: 'covid' },
+    { name: 'planets' },
+    { name: 'starships' },
   ];
 
   useEffect(() => {
     starwars.getPeople().then((response) => {
-      console.log('response', response);
+      // console.log('response', response);
       setData(response);
     });
   }, []);
@@ -44,7 +44,6 @@ function MainFunctional() {
   };
 
   const onCatelogItemSelectHandler = (index) => {
-    console.log('onCatelogItem ', index);
     setCatalogItem(index);
   };
 
@@ -82,7 +81,7 @@ function MainFunctional() {
   const displayData = sortedlist.slice(pageStart, pageEnd);
 
   return (
-    <div>
+    <div className="container">
       <div className="grid">
         <div className="row">
           <div className="col-3">
@@ -94,7 +93,7 @@ function MainFunctional() {
               />
             </div>
           </div>
-          <div className="col-6">
+          <div className="col">
             <Search onSearch={onSearchHandler} />
             <table className="table">
               <thead>
@@ -110,10 +109,11 @@ function MainFunctional() {
                 {displayData.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td scope="row">{item.name}</td>
-                      {/* <td scope="row">
-                        <Item item={item} />
-                      </td> */}
+                      <td scope="row">
+                        <Link className="item-name" to="/item">
+                          {item.name}
+                        </Link>
+                      </td>
                       <td>
                         <Delete onDelete={onItemDeleteHandler} item={item} />
                       </td>
@@ -135,4 +135,4 @@ function MainFunctional() {
   );
 }
 
-export default MainFunctional;
+export default Starwars;

@@ -1,6 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Starwars from './mainFunctional';
+import NavBar from './navBar';
+import Cats from './cats';
+import Covid from './covid';
+import Item from './item';
+
 const Dashboard = () => {
-  return <div></div>;
+  return (
+    <div>
+      <NavBar />
+      <Routes>
+        <Route path="/starwars" element={<Starwars />}></Route>
+        <Route path="/cats" element={<Cats />}></Route>
+        <Route path="/covid" element={<Covid />}></Route>
+        <Route path="/item" element={<Item />}></Route>
+        <Route path="/" element={<Starwars />}></Route>
+      </Routes>
+    </div>
+  );
 };
 
 export default Dashboard;

@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Catalogue(props) {
   const { catalogueList, onSelect, selectedIndex } = props;
 
@@ -8,12 +10,6 @@ function Catalogue(props) {
   };
   return (
     <div className="list-group">
-      <button
-        type="button"
-        className="list-group-item list-group-item-action disabled"
-      >
-        CATALOGUE
-      </button>
       {catalogueList.map((catalogue, index) => {
         return (
           <button
