@@ -5,27 +5,20 @@ import Search from './searchFunctional';
 
 function MainFunctional() {
   const [data, setData] = useState([]);
-  let dataClone = [];
+  const [searchText, setSearchText] = useState('');
 
   const categories = [{ name: 'people' }, { name: 'cats' }, { name: 'covid' }];
 
   useEffect(() => {
     starwars.getPeople().then((response) => {
       console.log('response', response);
-      dataClone = [...response];
       setData(response);
     });
   }, []);
 
   const onSearchHandler = (input) => {
-    if (!input) {
-      setData(dataClone);
-      return;
-    }
-    const searchedData = data.filter((people) => {
-      return people.name.includes(input);
-    });
-    setData(searchedData);
+    console.log('onSearchHandler: ', input);
+    setSearchText(input);
   };
 
   const onItemDeleteHandler = (item) => {
@@ -34,11 +27,20 @@ function MainFunctional() {
     });
     setData(remainingData);
   };
+
+  const getDisplayDataList = () => {
+    let displayData = [...data];
+    if (searchText)
+      displayData = data.filter((people) => {
+        return people.name.includes(searchText);
+      });
+    return displayData;
+  };
+  const displayData = getDisplayDataList();
+
+  console.log('MainFunctional...');
   return (
     <div>
-      <div>
-        <Search onSearch={onSearchHandler} />
-      </div>
       <div className="grid">
         <div className="row">
           <div className="col-3">
@@ -58,6 +60,7 @@ function MainFunctional() {
             </div>
           </div>
           <div className="col">
+            <Search onSearch={onSearchHandler} />
             <table className="table-primary">
               <thead>
                 <tr>
@@ -66,7 +69,7 @@ function MainFunctional() {
                 </tr>
               </thead>
               <tbody>
-                {data.map((item, index) => {
+                {displayData.map((item, index) => {
                   return (
                     <tr key={index}>
                       <td scope="row">{item.name}</td>
