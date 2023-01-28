@@ -12,5 +12,18 @@ body {
 }
 
 .item-name {
+  cursor: pointer;
   text-decoration: none;
+}
+
+.item-detail {
+  margin-left: 1rem;
+  font-size: 3rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: bold;
+}
+
+.back-btn {
+  margin-left: 5rem;
 }

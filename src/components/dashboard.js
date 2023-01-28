@@ -11,7 +11,7 @@ const Dashboard = () => {
     <div>
       <NavBar />
       <Routes>
-        <Route path="/starwars" element={<Starwars />}></Route>
+        <Route path="/starwars" element={<Starwars testing="new" />}></Route>
         <Route path="/cats" element={<Cats />}></Route>
         <Route path="/covid" element={<Covid />}></Route>
         <Route path="/item" element={<Item />}></Route>

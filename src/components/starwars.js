@@ -5,15 +5,16 @@ import Catalogue from './catalogue';
 import Delete from './delete';
 import Pagination from './pagination';
 import Search from './search';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function Starwars() {
+function Starwars(props) {
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [pageNo, setPageNo] = useState(1);
   const [catalogItem, setCatalogItem] = useState(0);
   const [sortBy, setSortBy] = useState('asc');
   const pageSize = 5;
+  const navigate = useNavigate();
 
   const catalogueList = [
     { name: 'people' },
@@ -71,6 +72,10 @@ function Starwars() {
     return start;
   };
 
+  const toComponentItem = (data) => {
+    navigate('/item', { state: data });
+  };
+
   const availableDataList = getAvailableDataList();
   const numberOfItems = availableDataList.length;
   const pageStart = getPageStartIndex();
@@ -110,9 +115,23 @@ function Starwars() {
                   return (
                     <tr key={index}>
                       <td scope="row">
-                        <Link className="item-name" to="/item">
+                        <a
+                          className="item-name"
+                          onClick={() => {
+                            toComponentItem(item);
+                          }}
+                        >
                           {item.name}
-                        </Link>
+                        </a>
+                        {/* <Link
+                          className="item-name"
+                          to={{
+                            pathname: '/item',
+                            state: item,
+                          }}
+                        >
+                          {item.name}
+                        </Link> */}
                       </td>
                       <td>
                         <Delete onDelete={onItemDeleteHandler} item={item} />
