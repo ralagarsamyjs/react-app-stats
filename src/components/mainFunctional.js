@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import starwars from '../APIs/starwars';
 import Delete from './deleteFunctional';
+import Pagination from './paginationFunctional';
 import Search from './searchFunctional';
 
 function MainFunctional() {
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [pageNo, setPageNo] = useState(1);
+  const pageSize = 5;
 
   const categories = [{ name: 'people' }, { name: 'cats' }, { name: 'covid' }];
 
@@ -17,7 +20,6 @@ function MainFunctional() {
   }, []);
 
   const onSearchHandler = (input) => {
-    console.log('onSearchHandler: ', input);
     setSearchText(input);
   };
 
@@ -28,7 +30,11 @@ function MainFunctional() {
     setData(remainingData);
   };
 
-  const getDisplayDataList = () => {
+  const onPaginationHandler = (pno) => {
+    setPageNo(pno);
+  };
+
+  const getAvailableDataList = () => {
     let displayData = [...data];
     if (searchText)
       displayData = data.filter((people) => {
@@ -36,9 +42,21 @@ function MainFunctional() {
       });
     return displayData;
   };
-  const displayData = getDisplayDataList();
+  const getPageStartIndex = () => {
+    const start = (pageNo - 1) * pageSize;
+    if (pageNo > 1) {
+      return searchText === '' ? start : 0;
+    }
+    return start;
+  };
 
-  console.log('MainFunctional...');
+  const availableDataList = getAvailableDataList();
+  const numberOfItems = availableDataList.length;
+  const pageStart = getPageStartIndex();
+  const pageEnd = pageStart + pageSize;
+
+  const displayData = availableDataList.slice(pageStart, pageEnd);
+
   return (
     <div>
       <div className="grid">
@@ -47,7 +65,7 @@ function MainFunctional() {
             <div className="row">
               <ul className="list-group">
                 <li className="list-group-item disabled" aria-disabled="true">
-                  <h1>categories</h1>
+                  <h1>Categories</h1>
                 </li>
                 {categories.map((category) => {
                   return (
@@ -59,13 +77,13 @@ function MainFunctional() {
               </ul>
             </div>
           </div>
-          <div className="col">
+          <div className="col-6">
             <Search onSearch={onSearchHandler} />
-            <table className="table-primary">
+            <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Actions</th>
+                  <th className="col-sm">Name</th>
+                  <th className="col-sm-2">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,6 +99,12 @@ function MainFunctional() {
                 })}
               </tbody>
             </table>
+            <Pagination
+              onPageSelect={onPaginationHandler}
+              totalItems={numberOfItems}
+              pageSize={pageSize}
+              currentPage={pageNo}
+            />
           </div>
         </div>
       </div>
