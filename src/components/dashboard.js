@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Starwars from './mainFunctional';
+import Starwars from './starwars';
 import NavBar from './navBar';
 import Cats from './cats';
 import Covid from './covid';

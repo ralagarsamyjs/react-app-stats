@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import starwars from '../APIs/starwars';
-import Catalogue from './catalogueFunctional';
-import Delete from './deleteFunctional';
-import Pagination from './paginationFunctional';
-import Search from './searchFunctional';
+import Catalogue from './catalogue';
+import Delete from './delete';
+import Pagination from './pagination';
+import Search from './search';
 import { Link } from 'react-router-dom';
 
 function Starwars() {
