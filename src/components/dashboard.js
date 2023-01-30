@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Starwars from './starwars';
 import NavBar from './navBar';
 import Cats from './cats';
@@ -16,6 +16,7 @@ const Dashboard = () => {
         <Route path="/covid" element={<Covid />}></Route>
         <Route path="/item" element={<Item />}></Route>
         <Route path="/" element={<Starwars />}></Route>
+        <Route path="*" element={<Navigate to="/starwars" replace={true} />} />
       </Routes>
     </div>
   );
