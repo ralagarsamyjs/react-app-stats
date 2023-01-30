@@ -67,8 +67,8 @@ function Covid(props) {
       if (covidLive.length) {
         let displayData = [...covidLive];
         if (searchText)
-          displayData = covidLive.filter((cat) => {
-            return cat.id.includes(searchText);
+          displayData = covidLive.filter((live) => {
+            return live.state.includes(searchText);
           });
         return displayData;
       }
@@ -78,7 +78,7 @@ function Covid(props) {
         let displayData = [...covidHistory];
         if (searchText)
           displayData = covidHistory.filter((history) => {
-            return history.id.includes(searchText);
+            return history.state.includes(searchText);
           });
         return displayData;
       }
