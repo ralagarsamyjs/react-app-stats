@@ -2,7 +2,7 @@ import React from 'react';
 import Delete from './delete';
 import { useNavigate } from 'react-router-dom';
 
-function StarwarsTable(props) {
+function CatsTable(props) {
   const { items, onSort, onDelete, sortBy } = props;
   const navigate = useNavigate();
 
@@ -22,9 +22,12 @@ function StarwarsTable(props) {
           <thead>
             <tr>
               <th className="col-sm" onClick={onSort}>
-                Name
+                Id
                 <i className={getSortClasses()}></i>
               </th>
+              <th className="col-sm-2">url</th>
+              <th className="col-sm-2">width</th>
+              <th className="col-sm-2">height</th>
               <th className="col-sm-2">Actions</th>
             </tr>
           </thead>
@@ -39,9 +42,16 @@ function StarwarsTable(props) {
                         toComponentItem(item);
                       }}
                     >
-                      {item.name}
+                      {item.id}
                     </a>
                   </td>
+                  <td scope="row">
+                    <a className="item-name" href={item.url} target="_blank">
+                      {item.url}
+                    </a>
+                  </td>
+                  <td scope="row">{item.width}</td>
+                  <td scope="row">{item.height}</td>
                   <td>
                     <Delete onDelete={onDelete} item={item} />
                   </td>
@@ -57,4 +67,4 @@ function StarwarsTable(props) {
   );
 }
 
-export default StarwarsTable;
+export default CatsTable;

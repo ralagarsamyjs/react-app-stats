@@ -2,7 +2,7 @@ import React from 'react';
 import Delete from './delete';
 import { useNavigate } from 'react-router-dom';
 
-function StarwarsTable(props) {
+function CovidTable(props) {
   const { items, onSort, onDelete, sortBy } = props;
   const navigate = useNavigate();
 
@@ -22,9 +22,13 @@ function StarwarsTable(props) {
           <thead>
             <tr>
               <th className="col-sm" onClick={onSort}>
-                Name
+                state
                 <i className={getSortClasses()}></i>
               </th>
+              <th className="col-sm-2">date</th>
+              <th className="col-sm-2">positive</th>
+              <th className="col-sm-2">positiveIncrease</th>
+              <th className="col-sm-2">total</th>
               <th className="col-sm-2">Actions</th>
             </tr>
           </thead>
@@ -39,9 +43,13 @@ function StarwarsTable(props) {
                         toComponentItem(item);
                       }}
                     >
-                      {item.name}
+                      {item.state}
                     </a>
                   </td>
+                  <td scope="row">{item.date}</td>
+                  <td scope="row">{item.positive}</td>
+                  <td scope="row">{item.positiveIncrease}</td>
+                  <td scope="row">{item.total}</td>
                   <td>
                     <Delete onDelete={onDelete} item={item} />
                   </td>
@@ -57,4 +65,4 @@ function StarwarsTable(props) {
   );
 }
 
-export default StarwarsTable;
+export default CovidTable;

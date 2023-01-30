@@ -78,26 +78,32 @@ function Starwars(props) {
 
   const getAvailableDataList = () => {
     if (catalogItem === 0) {
-      let displayData = [...data];
-      if (searchText)
-        displayData = data.filter((people) => {
-          return people.name.includes(searchText);
-        });
-      return displayData;
+      if (data.length) {
+        let displayData = [...data];
+        if (searchText)
+          displayData = data.filter((people) => {
+            return people.name.includes(searchText);
+          });
+        return displayData;
+      } else return null;
     } else if (catalogItem === 1) {
-      let displayData = [...planets];
-      if (searchText)
-        displayData = planets.filter((planet) => {
-          return planet.name.includes(searchText);
-        });
-      return displayData;
+      if (planets.length) {
+        let displayData = [...planets];
+        if (searchText)
+          displayData = planets.filter((planet) => {
+            return planet.name.includes(searchText);
+          });
+        return displayData;
+      } else return null;
     } else {
-      let displayData = [...starships];
-      if (searchText)
-        displayData = starships.filter((starship) => {
-          return starship.name.includes(searchText);
-        });
-      return displayData;
+      if (starships.length) {
+        let displayData = [...starships];
+        if (searchText)
+          displayData = starships.filter((starship) => {
+            return starship.name.includes(searchText);
+          });
+        return displayData;
+      } else return null;
     }
   };
 
@@ -110,13 +116,17 @@ function Starwars(props) {
   };
 
   const availableDataList = getAvailableDataList();
-  const numberOfItems = availableDataList.length;
+  let numberOfItems = 0;
+  let sortedlist = null;
+  let displayData = null;
   const pageStart = getPageStartIndex();
   const pageEnd = pageStart + pageSize;
-
-  const sortedlist = _.orderBy(availableDataList, ['name'], [sortBy]);
-
-  const displayData = sortedlist.slice(pageStart, pageEnd);
+  if (availableDataList) {
+    console.log('availabledataList: ', availableDataList);
+    numberOfItems = availableDataList.length;
+    sortedlist = _.orderBy(availableDataList, ['id'], [sortBy]);
+    displayData = sortedlist.slice(pageStart, pageEnd);
+  }
 
   return (
     <div className="container">
